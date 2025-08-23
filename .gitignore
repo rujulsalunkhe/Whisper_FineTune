@@ -1,0 +1,94 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+*.log
+
+# Virtual environments
+.env
+.venv
+whisper_env/
+whisper_env/*
+env/
+venv/
+*.swp
+
+# -------------------------
+# OS-specific
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Notebooks
+# -------------------------
+.ipynb_checkpoints/
+.notebook_cache/
+
+# -------------------------
+# Data & Datasets
+# -------------------------
+data/synthetic/
+data/generated/
+data/*.wav
+data/*.flac
+data/*.mp3
+data/*.m4a
+data/*.ogg
+data/*.jsonl
+*.zip
+*.tar
+*.tar.gz
+
+# Keep original tech_terms.json, ignore large generated files
+!data/tech_terms.json
+
+# -------------------------
+# Models & Checkpoints
+# -------------------------
+models/
+*.pt
+*.bin
+*.ckpt
+*.safetensors
+*.onnx
+
+# Hugging Face cache
+~/.cache/huggingface/
+~/.huggingface/
+
+# -------------------------
+# Training outputs
+# -------------------------
+outputs/
+runs/
+checkpoints/
+wandb/
+mlruns/
+tensorboard/
+*.tfevents.*
+
+# -------------------------
+# Configs
+# -------------------------
+# Ignore user-specific configs but keep template
+config/*.yaml
+!config/config.yaml
+
+# -------------------------
+# Misc
+# -------------------------
+*.bak
+*.tmp
+*.out
+*.lock
+*.pickle
+*.pkl
+*.npy
+*.npz
