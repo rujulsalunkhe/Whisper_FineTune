@@ -9,7 +9,7 @@ import os
 # --- Configuration ---
 BASE_MODEL_ID = "openai/whisper-large-v3"
 ADAPTER_PATH = "./whisper-large-v3-tech-lora"
-TEST_AUDIO_FILE = "my_audio.wav"
+TEST_AUDIO_FILE = "my_audio6.wav"
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = "cuda" if USE_CUDA else "cpu"
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
     # --- 4. Compare the Results ---
     print("\n\n" + "="*50)
-    print("           PERFORMANCE COMPARISON")
+    print("           Result")
     print("="*50)
     print(f"\nAudio File Tested:\n  '{TEST_AUDIO_FILE}'")
     print("-" * 50)
