@@ -15,5 +15,3 @@ librosa
 # Evaluation
 evaluate
 jiwer
-whisper_env/
-data/
