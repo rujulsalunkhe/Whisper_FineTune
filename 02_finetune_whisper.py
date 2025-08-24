@@ -107,11 +107,23 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor)
 metric = evaluate.load("wer")
 
 def compute_metrics(pred):
+    # Hugging Face Trainer sometimes returns logits instead of token IDs
     pred_ids = pred.predictions
+    if isinstance(pred_ids, tuple):
+        pred_ids = pred_ids[0]
+
+    # Convert logits -> token IDs if needed
+    if pred_ids.ndim == 3:  # shape (batch, seq_len, vocab_size)
+        pred_ids = torch.tensor(pred_ids).argmax(dim=-1)
+    else:
+        pred_ids = torch.tensor(pred_ids)
+
     label_ids = pred.label_ids
     label_ids[label_ids == -100] = processor.tokenizer.pad_token_id
-    pred_str = processor.batch_decode(pred_ids, skip_special_tokens=True)
-    label_str = processor.batch_decode(label_ids, skip_special_tokens=True)
+
+    pred_str = processor.tokenizer.batch_decode(pred_ids, skip_special_tokens=True)
+    label_str = processor.tokenizer.batch_decode(label_ids, skip_special_tokens=True)
+
     wer = 100 * metric.compute(predictions=pred_str, references=label_str)
     return {"wer": wer}
 
@@ -142,7 +154,7 @@ trainer = Trainer(
     eval_dataset=tokenized_dataset["test"],
     data_collator=data_collator,
     compute_metrics=compute_metrics,
-    tokenizer=processor.feature_extractor,
+    tokenizer=processor.tokenizer,
 )
 
 print("--- Starting Training ---")
