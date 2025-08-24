@@ -17,3 +17,4 @@ evaluate
 jiwer
 whisper_env/
 data/
+.DS_Store
