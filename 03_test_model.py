@@ -106,10 +106,10 @@ if __name__ == "__main__":
     print("\n\n" + "="*50)
     print("           PERFORMANCE COMPARISON")
     print("="*50)
-    print(f"\nOriginal Sentence:\n  '{test_sentence}'")
+    print(f"\nAudio File Tested:\n  '{TEST_AUDIO_FILE}'")
     print("-" * 50)
-    print(f"\nBase Model Transcription:\n  '{base_transcription}'")
-    print("-" * 50)
+    # print(f"\nBase Model Transcription:\n  '{base_transcription}'")
+    # print("-" * 50)
     print(f"\nFine-Tuned Model Transcription:\n  '{finetuned_transcription}'")
     print("="*50)
 
