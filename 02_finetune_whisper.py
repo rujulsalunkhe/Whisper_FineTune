@@ -1,6 +1,4 @@
 import torch
-torch.backends.mps.is_available = lambda: False
-torch.backends.mps.is_built = lambda: False
 from datasets import Dataset, DatasetDict
 from transformers import (
     WhisperForConditionalGeneration,
@@ -26,12 +24,12 @@ print("--- Step 1: Loading Processor and Model ---")
 processor = WhisperProcessor.from_pretrained(MODEL_ID, language="english", task="transcribe")
 
 # Load the model in 8-bit for memory efficiency
-model = WhisperForConditionalGeneration.from_pretrained(MODEL_ID)
+model = WhisperForConditionalGeneration.from_pretrained(MODEL_ID, load_in_8bit=True)
 
 # --- 2. Configure LoRA for Efficient Fine-tuning ---
 print("--- Step 2: Configuring LoRA ---")
 # Prepare the model for k-bit training (enables gradient checkpointing)
-# model = prepare_model_for_kbit_training(model)
+model = prepare_model_for_kbit_training(model)
 
 # Define LoRA configuration
 config = LoraConfig(
@@ -120,14 +118,14 @@ def compute_metrics(pred):
 # Define training arguments
 training_args = TrainingArguments(
     output_dir=OUTPUT_DIR,
-    per_device_train_batch_size=2, # Reduce if you run out of memory
-    gradient_accumulation_steps=8, # Effective batch size is batch_size * accumulation_steps
+    per_device_train_batch_size=8, # Reduce if you run out of memory
+    gradient_accumulation_steps=2, # Effective batch size is batch_size * accumulation_steps
     learning_rate=1e-5,
     warmup_steps=50,
     num_train_epochs=5, # Increase for better performance
     eval_strategy="epoch",
     save_strategy="epoch",
-    fp16=False, # Use mixed precision for faster training
+    fp16=True, # Use mixed precision for faster training
     logging_steps=25,
     load_best_model_at_end=True,
     metric_for_best_model="wer",
